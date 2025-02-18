@@ -1,4 +1,4 @@
-import { IsEmail, IsString } from "class-validator";
+import { IsBase64, IsEmail, IsString } from "class-validator";
 
 export class CreateGymDto {
     @IsString()
@@ -34,4 +34,6 @@ export class CreateGymDto {
     @IsString()
     description: string;
 
+    @IsBase64()
+    gymImage: string;
 }

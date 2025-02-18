@@ -11,13 +11,11 @@ export class GymsService {
   private gymsRepository: Repository<Gym>;
 
   constructor(
-    @InjectRepository(Gym)
-    gymsRepository: Repository<Gym>) {
+    @InjectRepository(Gym) gymsRepository: Repository<Gym>) {
     this.gymsRepository = gymsRepository;
   }
 
   create(createGymDto: CreateGymDto) {
-
     const gym = this.gymsRepository.create(createGymDto);
     return this.gymsRepository.save(gym);
   }
@@ -38,7 +36,7 @@ export class GymsService {
   }
 
   async remove(id: string) {
-    const gym = await this.gymsRepository.findOne({where: {id}});
+    const gym = await this.gymsRepository.findOne({ where: { id } });
     if (!gym) return null;
     this.gymsRepository.softDelete(id);
     return gym;

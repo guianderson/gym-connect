@@ -1,9 +1,5 @@
 import { nanoid } from "nanoid";
-import { 
-    Entity, Column, CreateDateColumn, UpdateDateColumn, DeleteDateColumn, 
-    BeforeInsert,
-    PrimaryColumn
-} from "typeorm";
+import { Entity, Column, CreateDateColumn, UpdateDateColumn, DeleteDateColumn, BeforeInsert, PrimaryColumn } from "typeorm";
 
 @Entity('gym')
 export class Gym {
@@ -43,6 +39,9 @@ export class Gym {
 
     @Column()
     description: string;
+
+    @Column()
+    gymImage: string;
 
     @CreateDateColumn()
     createdAt: Date;
