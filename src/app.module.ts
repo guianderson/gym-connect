@@ -15,7 +15,11 @@ dotenv.config();
       password: String(process.env.DB_PASSWORD),
       database: process.env.DB_NAME,
       entities: ['dist/**/*.entity{.ts,.js}'],
-      synchronize: true,
+      migrations: {
+        directory: 'src/migrations',
+        tableName: 'migrations',
+        path: 'dist/migrations/*{.ts,.js}',
+      },
     }),
     GymsModule,
   ],
