@@ -109,3 +109,58 @@ Nest is an MIT-licensed open source project. It can grow thanks to the sponsors 
 ## License
 
 Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+
+# Initial Structure
+
+### 1. Tabelas principais:
+#### Academias (academies)
+
+- id: chave primária.
+- nome: nome da academia.
+- endereço: endereço da academia.
+- telefone: número de contato.
+
+#### Professores (teachers)
+- id: chave primária.
+- id_academia: chave estrangeira que referencia a tabela academies.
+- nome: nome do professor.
+- email: e-mail do professor.
+- senha: senha do professor (criptografada).
+- data_cadastro: data de cadastro.
+- tipo_usuario: se é um professor (para diferenciação).
+
+#### Alunos (students)
+- id: chave primária.
+- id_academia: chave estrangeira que referencia a tabela academies.
+- nome: nome do aluno.
+- email: e-mail do aluno.
+- senha: senha do aluno (criptografada).
+- data_cadastro: data de cadastro.
+- tipo_usuario: se é um aluno (para diferenciação).
+
+#### Treinos (workouts)
+- id: chave primária.
+- id_teacher: chave estrangeira que referencia a tabela teachers.
+- id_student: chave estrangeira que referencia a tabela students (pode ser nula se o treino for apenas um treino geral da academia).
+- data_criacao: data de criação.
+- descricao: descrição do treino.
+
+### 2. Relacionamento entre tabelas:
+- Academia x Professores: Uma academia pode ter vários professores (relacionamento 1:N entre academies e teachers).
+- Academia x Alunos: Uma academia pode ter vários alunos (relacionamento 1:N entre academies e students).
+- Professores x Alunos: Um professor pode ter vários alunos, mas cada aluno só deve ser associado a um único professor para fins de treinamentos personalizados (relacionamento 1:N entre teachers e students).
+- Professores x Treinos: O professor cria treinos para os alunos. O relacionamento é 1:N entre teachers e workouts.
+- Alunos x Treinos: Cada aluno terá treinos específicos criados por seu professor (relacionamento 1:N entre students e workouts).
+
+### 3. Funcionalidade de registro:
+- Cadastro de alunos: A academia pode cadastrar os alunos, ou os alunos podem se registrar diretamente na plataforma, com uma opção de associar a academia na qual querem se inscrever. Caso a academia decida fazer o cadastro, ela pode fazer isso diretamente na interface de administração.
+
+### Acessos:
+
+- A academia e os professores poderão ver todos os alunos cadastrados.
+- Os alunos poderão ver apenas seus próprios treinos e informações.
+
+#### 4. Fluxo de Acesso:
+- Academia: A academia tem acesso completo aos dados de alunos, professores e treinos. Ela pode gerenciar os professores e seus respectivos alunos.
+- Professor: O professor tem acesso aos alunos que ele gerenciou diretamente, podendo visualizar e modificar seus treinos.
+- Aluno: O aluno pode ver apenas os treinos atribuídos a ele e editar suas próprias informações.
