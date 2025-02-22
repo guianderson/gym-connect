@@ -1,59 +1,26 @@
-import { nanoid } from "nanoid";
-import { Entity, Column, CreateDateColumn, UpdateDateColumn, DeleteDateColumn, BeforeInsert, PrimaryColumn } from "typeorm";
+// src/academies/academy.entity.ts
 
-@Entity('gym')
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+import { Teacher } from '../../teachers/entity/teachers.entity';
+import { Student } from '../../students/entity/students.entity';
+
+@Entity()
 export class Gym {
+  @PrimaryGeneratedColumn()
+  id: number;
 
-    @PrimaryColumn()
-    id: string;
+  @Column()
+  name: string;
 
-    @Column()
-    name: string;
-        
-    @Column()
-    city: string;
+  @Column()
+  address: string;
 
-    @Column()
-    state: string;
+  @Column()
+  phone: string;
 
-    @Column()
-    street: string;
+  @OneToMany(() => Teacher, (teacher) => teacher.gym)
+  teachers: Teacher[];
 
-    @Column()
-    neighborhood: string;
-
-    @Column()
-    number: string;
-
-    @Column()
-    zipcode: string;
-
-    @Column()
-    phone: string;
-
-    @Column()
-    email: string;
-
-    @Column()
-    website: string;
-
-    @Column()
-    description: string;
-
-    @Column()
-    gymImage: string;
-
-    @CreateDateColumn()
-    createdAt: Date;
-
-    @UpdateDateColumn()
-    updatedAt: Date;
-
-    @DeleteDateColumn({ nullable: true })
-    deletedAt: Date | null;
-
-    @BeforeInsert()
-    generateId() {
-        this.id = `gym_${nanoid()}`;
-    }
+  @OneToMany(() => Student, (student) => student.academy)
+  students: Student[];
 }

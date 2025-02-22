@@ -1,44 +1,32 @@
+// src/gyms/gyms.service.ts
+
 import { Injectable } from '@nestjs/common';
-import { CreateGymDto } from './dto/create-gym.dto';
-import { UpdateGymDto } from './dto/update-gym.dto';
-import { Repository } from 'typeorm';
-import { Gym } from './entities/gym.entity';
 import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { CreateGymDto } from './dto/create-gym.dto';
+import { Gym } from './entities/gym.entity';
 
 @Injectable()
 export class GymsService {
-
-  private gymsRepository: Repository<Gym>;
-
   constructor(
-    @InjectRepository(Gym) gymsRepository: Repository<Gym>) {
-    this.gymsRepository = gymsRepository;
+    @InjectRepository(Gym)
+    private readonly gymRepository: Repository<Gym>,
+  ) {}
+
+  async create(createGymDto: CreateGymDto): Promise<Gym> {
+    const gym = this.gymRepository.create(createGymDto);
+    return this.gymRepository.save(gym);
   }
 
-  create(createGymDto: CreateGymDto) {
-    const gym = this.gymsRepository.create(createGymDto);
-    return this.gymsRepository.save(gym);
+  findAll(): Promise<Gym[]> {
+    return this.gymRepository.find();
   }
 
-  findAll() {
-    return this.gymsRepository.find();
-  }
-
-  findOne(id: string) {
-    return this.gymsRepository.findOne({ where: { id } });
-  }
-
-  async update(id: string, updateGymDto: UpdateGymDto) {
-    const gym = await this.gymsRepository.findOne({ where: { id } });
-    if (!gym) return null;
-    this.gymsRepository.merge(gym, updateGymDto);
-    return this.gymsRepository.save(gym);
-  }
-
-  async remove(id: string) {
-    const gym = await this.gymsRepository.findOne({ where: { id } });
-    if (!gym) return null;
-    this.gymsRepository.softDelete(id);
+  async findOne(id: number): Promise<Gym> {
+    const gym = await this.gymRepository.findOne({ where: { id } });
+    if (!gym) {
+      throw new Error(`Gym with id ${id} not found`);
+    }
     return gym;
   }
 }

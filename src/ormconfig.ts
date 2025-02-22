@@ -1,5 +1,8 @@
 import { DataSource } from "typeorm";
 import { Gym } from "./gyms/entities/gym.entity";
+import { Teacher } from "./teachers/entity/teachers.entity";
+import { Student } from "./students/entity/students.entity";
+import { Workout } from "./workouts/entity/workouts.entity";
 
 export const AppDataSource = new DataSource({
   type: "postgres",
@@ -10,7 +13,7 @@ export const AppDataSource = new DataSource({
   database: process.env.DB_NAME,
   synchronize: false,
   logging: true,
-  entities: [Gym],
+  entities: [Gym, Teacher, Student, Workout],
   migrations: [__dirname + "/migrations/*.ts"],  // caminho para suas migrações
   subscribers: [],
 });
