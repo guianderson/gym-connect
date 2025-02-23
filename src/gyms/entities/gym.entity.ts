@@ -1,6 +1,15 @@
 // src/academies/academy.entity.ts
 
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany, ManyToOne, CreateDateColumn, UpdateDateColumn, DeleteDateColumn } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  OneToMany,
+  ManyToOne,
+  CreateDateColumn,
+  UpdateDateColumn,
+  DeleteDateColumn,
+} from 'typeorm';
 import { Plans } from '../../plans/entity/plans.entity';
 import { Teacher } from '../../teachers/entity/teachers.entity';
 import { Student } from '../../students/entity/students.entity';
