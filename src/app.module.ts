@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { GymsModule } from './gyms/gyms.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import * as dotenv from 'dotenv';
+import { PlansModule } from './plans/plans.module';
 
 dotenv.config();
 
@@ -22,6 +23,7 @@ dotenv.config();
       },
     }),
     GymsModule,
+    PlansModule
   ],
 })
 export class AppModule {}

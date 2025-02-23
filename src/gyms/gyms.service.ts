@@ -13,11 +13,21 @@ export class GymsService {
     private readonly gymRepository: Repository<Gym>,
   ) {}
 
-  async create(createGymDto: CreateGymDto): Promise<Gym> {
-    const gym = this.gymRepository.create(createGymDto);
+  async create(createGymDto: CreateGymDto, file?: Express.Multer.File) {
+    let base64Image: string | null = null;
+  
+    if (file) {
+      base64Image = file.buffer.toString('base64');
+    }
+  
+    const gym = this.gymRepository.create({
+      ...createGymDto,
+      image: base64Image,
+    });
+  
     return this.gymRepository.save(gym);
   }
-
+  
   findAll(): Promise<Gym[]> {
     return this.gymRepository.find();
   }
