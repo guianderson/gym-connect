@@ -3,6 +3,7 @@ import { Gym } from "./gyms/entities/gym.entity";
 import { Teacher } from "./teachers/entity/teachers.entity";
 import { Student } from "./students/entity/students.entity";
 import { Workout } from "./workouts/entity/workouts.entity";
+import { Plans } from "./plans/entity/plans.entity";
 
 export const AppDataSource = new DataSource({
   type: "postgres",
@@ -13,7 +14,7 @@ export const AppDataSource = new DataSource({
   database: process.env.DB_NAME,
   synchronize: false,
   logging: true,
-  entities: [Gym, Teacher, Student, Workout],
+  entities: [Gym, Teacher, Student, Workout, Plans],
   migrations: [__dirname + "/migrations/*.ts"],  // caminho para suas migrações
   subscribers: [],
 });
