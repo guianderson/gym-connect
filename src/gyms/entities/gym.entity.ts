@@ -52,6 +52,9 @@ export class Gym {
   @Column()
   planId: number;
 
+  @Column()
+  password: string;
+
   @CreateDateColumn()
   created_at: Date;
 

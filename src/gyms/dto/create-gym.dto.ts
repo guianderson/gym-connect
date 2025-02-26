@@ -1,6 +1,11 @@
 // src/gyms/dto/create-gym.dto.ts
 
-import { IsString, IsNotEmpty, IsPhoneNumber, IsBoolean, IsOptional } from 'class-validator';
+import {
+  IsString,
+  IsNotEmpty,
+  IsPhoneNumber,
+  IsOptional,
+} from 'class-validator';
 
 export class CreateGymDto {
   @IsString()
@@ -44,4 +49,8 @@ export class CreateGymDto {
 
   @IsOptional()
   image?: Express.Multer.File;
+
+  @IsString()
+  @IsNotEmpty()
+  password: string;
 }

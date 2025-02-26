@@ -1,10 +1,9 @@
-// src/gyms/gyms.service.ts
-
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateGymDto } from './dto/create-gym.dto';
 import { Gym } from './entities/gym.entity';
+import { encryptPass } from 'src/utils/encryptPass';
 
 @Injectable()
 export class GymsService {
@@ -22,6 +21,7 @@ export class GymsService {
   
     const gym = this.gymRepository.create({
       ...createGymDto,
+      password: await encryptPass(createGymDto.password),
       image: base64Image,
     });
   
