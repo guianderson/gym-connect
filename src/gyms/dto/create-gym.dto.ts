@@ -14,11 +14,19 @@ export class CreateGymDto {
 
   @IsString()
   @IsNotEmpty()
+  cnpj: string;
+
+  @IsString()
+  @IsNotEmpty()
   zipCode: string;
 
   @IsString()
   @IsNotEmpty()
   street: string;
+
+  @IsString()
+  @IsNotEmpty()
+  neighborhood: string;
 
   @IsString()
   @IsNotEmpty()

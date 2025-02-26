@@ -1,9 +1,10 @@
-import { Injectable } from '@nestjs/common';
+import { ConflictException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateGymDto } from './dto/create-gym.dto';
 import { Gym } from './entities/gym.entity';
 import { encryptPass } from 'src/utils/encryptPass';
+import { image2Base64 } from 'src/utils/image2base64';
 
 @Injectable()
 export class GymsService {
@@ -13,21 +14,30 @@ export class GymsService {
   ) {}
 
   async create(createGymDto: CreateGymDto, file?: Express.Multer.File) {
-    let base64Image: string | null = null;
-  
-    if (file) {
-      base64Image = file.buffer.toString('base64');
+    const cleanedCnpj = createGymDto.cnpj.replace(/\D/g, ''); // Remove formatação
+
+    const gymExists = await this.findByCnpj(cleanedCnpj);
+    if (gymExists) {
+      throw new ConflictException(`Failed to create gym.`);
     }
-  
+
+    const encryptedPassword = await encryptPass(createGymDto.password);
+    const base64Image = file ? await image2Base64(file) : null;
+
     const gym = this.gymRepository.create({
       ...createGymDto,
-      password: await encryptPass(createGymDto.password),
+      cnpj: cleanedCnpj,
+      password: encryptedPassword,
       image: base64Image,
     });
-  
+
     return this.gymRepository.save(gym);
   }
-  
+
+  async findByCnpj(cnpj: string): Promise<Gym | null> {
+    return this.gymRepository.findOne({ where: { cnpj } });
+  }
+
   findAll(): Promise<Gym[]> {
     return this.gymRepository.find();
   }

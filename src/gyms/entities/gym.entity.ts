@@ -22,11 +22,17 @@ export class Gym {
   @Column()
   name: string;
 
+  @Column({ unique: true })
+  cnpj: string;
+
   @Column()
   zipCode: string;
 
   @Column()
   street: string;
+
+  @Column()
+  neighborhood: string;
 
   @Column()
   city: string;
