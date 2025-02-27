@@ -3,6 +3,9 @@ import { AuthService } from './service/auth.service';
 import { AuthController } from './controller/auth.controller';
 import { GymsModule } from '../gyms/gyms.module'; // Import the module, not the service
 import { JwtModule } from '@nestjs/jwt';
+import * as dotenv from 'dotenv';
+
+dotenv.config();
 
 @Module({
   imports: [

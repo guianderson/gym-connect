@@ -3,6 +3,7 @@ import { JwtService } from '@nestjs/jwt';
 import { GymsService } from 'src/gyms/service/gyms.service';
 import { SignInDto } from '../dto/signIn.dto';
 import * as bcrypt from 'bcrypt';
+import { validatePassword } from 'src/utils/encryptPass';
 
 @Injectable()
 export class AuthService {
@@ -10,13 +11,6 @@ export class AuthService {
     private readonly gymsService: GymsService,
     private readonly jwtService: JwtService,
   ) {}
-
-  async validatePassword(
-    plainTextPassword: string,
-    hashedPassword: string,
-  ): Promise<boolean> {
-    return await bcrypt.compare(plainTextPassword, hashedPassword);
-  }
 
   async signIn(signInDto: SignInDto): Promise<{ accessToken: string }> {
     const { email, password } = signInDto;
@@ -26,7 +20,7 @@ export class AuthService {
       throw new UnauthorizedException('User not found');
     }
 
-    const isPasswordValid = await this.validatePassword(password, gym.password);
+    const isPasswordValid = await validatePassword(password, gym.password);
     if (!isPasswordValid) {
       throw new UnauthorizedException('Invalid user or password');
     }
