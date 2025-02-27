@@ -1,8 +1,8 @@
 import { ConflictException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { CreateGymDto } from './dto/create-gym.dto';
-import { Gym } from './entities/gym.entity';
+import { CreateGymDto } from '../dto/create-gym.dto';
+import { Gym } from '../entities/gym.entity';
 import { encryptPass } from 'src/utils/encryptPass';
 import { image2Base64 } from 'src/utils/image2base64';
 import { cleanCpfCnpj } from 'src/utils/formatCpfCnpj';
@@ -36,6 +36,10 @@ export class GymsService {
 
   async findByCnpj(cnpj: string): Promise<Gym | null> {
     return this.gymRepository.findOne({ where: { cnpj } });
+  }
+
+  async findByEmail(email: string): Promise<Gym | null> {
+    return this.gymRepository.findOne({ where: { email } });
   }
 
   findAll(): Promise<Gym[]> {

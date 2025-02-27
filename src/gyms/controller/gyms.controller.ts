@@ -1,9 +1,17 @@
 // src/gyms/gyms.controller.ts
 
-import { Controller, Get, Post, Body, Param, UseInterceptors, UploadedFile } from '@nestjs/common';
-import { GymsService } from './gyms.service';
-import { CreateGymDto } from './dto/create-gym.dto';
-import { Gym } from './entities/gym.entity';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Param,
+  UseInterceptors,
+  UploadedFile,
+} from '@nestjs/common';
+import { GymsService } from '../service/gyms.service';
+import { CreateGymDto } from '../dto/create-gym.dto';
+import { Gym } from '../entities/gym.entity';
 import { FileInterceptor } from '@nestjs/platform-express';
 
 @Controller('gyms')
@@ -12,7 +20,10 @@ export class GymsController {
 
   @Post()
   @UseInterceptors(FileInterceptor('image'))
-  async create(@Body() createGymDto: CreateGymDto, @UploadedFile() file: Express.Multer.File) {
+  async create(
+    @Body() createGymDto: CreateGymDto,
+    @UploadedFile() file: Express.Multer.File,
+  ) {
     return this.gymsService.create(createGymDto, file);
   }
 
