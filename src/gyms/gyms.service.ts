@@ -5,6 +5,7 @@ import { CreateGymDto } from './dto/create-gym.dto';
 import { Gym } from './entities/gym.entity';
 import { encryptPass } from 'src/utils/encryptPass';
 import { image2Base64 } from 'src/utils/image2base64';
+import { cleanCpfCnpj } from 'src/utils/formatCpfCnpj';
 
 @Injectable()
 export class GymsService {
@@ -14,9 +15,8 @@ export class GymsService {
   ) {}
 
   async create(createGymDto: CreateGymDto, file?: Express.Multer.File) {
-    const cleanedCnpj = createGymDto.cnpj.replace(/\D/g, ''); // Remove formatação
-
-    const gymExists = await this.findByCnpj(cleanedCnpj);
+    const cnpj = cleanCpfCnpj(createGymDto.cnpj);
+    const gymExists = await this.findByCnpj(cnpj);
     if (gymExists) {
       throw new ConflictException(`Failed to create gym.`);
     }
@@ -26,7 +26,7 @@ export class GymsService {
 
     const gym = this.gymRepository.create({
       ...createGymDto,
-      cnpj: cleanedCnpj,
+      cnpj: cnpj,
       password: encryptedPassword,
       image: base64Image,
     });
