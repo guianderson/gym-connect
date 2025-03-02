@@ -11,8 +11,6 @@ import {
   DeleteDateColumn,
 } from 'typeorm';
 import { Plans } from '../../plans/entity/plans.entity';
-import { Teacher } from '../../teachers/entity/teachers.entity';
-import { Student } from '../../students/entity/students.entity';
 
 @Entity()
 export class Gym {
@@ -72,10 +70,4 @@ export class Gym {
 
   @ManyToOne(() => Plans, (plan) => plan.gyms)
   plan: Plans;
-
-  @OneToMany(() => Teacher, (teacher) => teacher.gym)
-  teachers: Teacher[];
-
-  @OneToMany(() => Student, (student) => student.academy)
-  students: Student[];
 }
