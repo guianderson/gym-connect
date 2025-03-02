@@ -4,6 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import * as dotenv from 'dotenv';
 import { PlansModule } from './plans/plans.module';
 import { AuthModule } from './auth/auth.module';
+import { UsersModule } from './users/users.module';
 
 dotenv.config();
 
@@ -24,6 +25,7 @@ dotenv.config();
       },
     }),
     GymsModule,
+    UsersModule,
     PlansModule,
     AuthModule,
   ],

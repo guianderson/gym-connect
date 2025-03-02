@@ -1,18 +1,18 @@
+import { UserType } from '../../enums/userType.enum';
+import { Gym } from '../../gyms/entities/gym.entity';
 import {
   Entity,
   Column,
   PrimaryGeneratedColumn,
   OneToMany,
-  ManyToOne,
   CreateDateColumn,
   UpdateDateColumn,
   DeleteDateColumn,
+  ManyToOne,
 } from 'typeorm';
-import { Plans } from '../../plans/entity/plans.entity';
-import { Users } from '../../users/entity/users.entity';
 
 @Entity()
-export class Gym {
+export class Users {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -20,7 +20,7 @@ export class Gym {
   name: string;
 
   @Column({ unique: true })
-  cnpj: string;
+  cpf: string;
 
   @Column()
   zipCode: string;
@@ -53,10 +53,16 @@ export class Gym {
   image?: string | null;
 
   @Column()
-  planId: number;
+  password: string;
 
   @Column()
-  password: string;
+  userType: UserType;
+
+  @ManyToOne(() => Gym, (gym) => gym.id)
+  gym: Gym[];
+
+  @Column()
+  gymId: number;
 
   @CreateDateColumn()
   created_at: Date;
@@ -66,10 +72,4 @@ export class Gym {
 
   @DeleteDateColumn()
   deleted_at: Date;
-
-  @ManyToOne(() => Plans, (plan) => plan.gyms)
-  plan: Plans;
-
-  @OneToMany(() => Users, (user) => user.gym)
-  users: Users[];
 }
